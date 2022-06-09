@@ -31,7 +31,6 @@ zone="europe-west1-b"
 registry_name="bank-of-anthos"
 ```
 
-
 # Run pulumi
 ```	
 terraform apply
