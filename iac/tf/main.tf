@@ -244,7 +244,7 @@ resource "google_cloudbuild_trigger" "accounts" {
   included_files = ["src/accounts/**", "src/components/**"]
   filename       = "cloudbuild.yaml"
   substitutions = {
-    _DEPLOY_UNIT        = "accounts"
+    _TEAM        = "accounts"
     _CACHE_URI          = "gs://${google_storage_bucket.cache-bucket.name}/${google_storage_bucket_object.cache-accounts.name}"
     _CONTAINER_REGISTRY = "europe-west1-docker.pkg.dev/${data.google_project.project.project_id}/${var.registry_name}"
   }
@@ -263,7 +263,7 @@ resource "google_cloudbuild_trigger" "frontend" {
   included_files = ["src/frontend/**", "src/components/**"]
   filename       = "cloudbuild.yaml"
   substitutions = {
-    _DEPLOY_UNIT        = "frontend"
+    _TEAM        = "frontend"
     _CACHE_URI          = "gs://${google_storage_bucket.cache-bucket.name}/${google_storage_bucket_object.cache-frontend.name}"
     _CONTAINER_REGISTRY = "europe-west1-docker.pkg.dev/${data.google_project.project.project_id}/${var.registry_name}"
   }
@@ -282,7 +282,7 @@ resource "google_cloudbuild_trigger" "ledger" {
   included_files = ["src/ledger/**", "src/components/**"]
   filename       = "cloudbuild-mvnw.yaml"
   substitutions = {
-    _DEPLOY_UNIT        = "ledger"
+    _TEAM        = "ledger"
     _CACHE_URI          = "gs://${google_storage_bucket.cache-bucket.name}/${google_storage_bucket_object.cache-ledger.name}"
     _CONTAINER_REGISTRY = "europe-west1-docker.pkg.dev/${data.google_project.project.project_id}/${var.registry_name}"
   }

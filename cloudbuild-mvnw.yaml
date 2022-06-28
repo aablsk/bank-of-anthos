@@ -20,7 +20,7 @@ steps:
       - "--file-output=/workspace/artifacts.json"
       - "--default-repo=$_CONTAINER_REGISTRY"
       - "--cache-file=/workspace/cache"
-      - "--filename=src/$_DEPLOY_UNIT/skaffold.yaml"
+      - "--filename=src/$_TEAM/skaffold.yaml"
     env:
       - "MAVEN_USER_HOME=/workspace/.m2"
   - name: gcr.io/cloud-builders/gsutil
@@ -30,8 +30,8 @@ steps:
       - "deploy"
       - "releases"
       - "create"
-      - "$_DEPLOY_UNIT-$SHORT_SHA"
-      - "--delivery-pipeline=$_DEPLOY_UNIT"
+      - "$_TEAM-$SHORT_SHA"
+      - "--delivery-pipeline=$_TEAM"
       - "--build-artifacts=/workspace/artifacts.json"
-      - "--skaffold-file=src/$_DEPLOY_UNIT/skaffold.yaml"
+      - "--skaffold-file=src/$_TEAM/skaffold.yaml"
       - "--region=europe-west1"

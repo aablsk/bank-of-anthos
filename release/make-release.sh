@@ -46,24 +46,24 @@ fi
 # set up folder structure for release
 RELEASE_PATH="${REPO_ROOT}/release/${NEW_VERSION}"
 mkdir -p $RELEASE_PATH
-ARTIFACTS_PATH="${RELEASE_PATH}/${DEPLOY_UNIT}-artifacts.json"
+ARTIFACTS_PATH="${RELEASE_PATH}/${TEAM}-artifacts.json"
 
 # build and push release images
 skaffold config set default-repo $REPO_PREFIX
 skaffold config set local-cluster false
-skaffold build --push --tag=$NEW_VERSION --file-output=$ARTIFACTS_PATH --module=$DEPLOY_UNIT
-skaffold render --build-artifacts=$ARTIFACTS_PATH --output="${RELEASE_PATH}/${DEPLOY_UNIT}.yaml" --module=$DEPLOY_UNIT
+skaffold build --push --tag=$NEW_VERSION --file-output=$ARTIFACTS_PATH --module=$TEAM
+skaffold render --build-artifacts=$ARTIFACTS_PATH --output="${RELEASE_PATH}/${TEAM}.yaml" --module=$TEAM
 skaffold config unset local-cluster
 
 # push release PR
-git checkout -b "release/${NEW_VERSION}/${DEPLOY_UNIT}"
+git checkout -b "release/${NEW_VERSION}/${TEAM}"
 git add "${REPO_ROOT}/release/${NEW_VERSION}"
-git commit -m "release/${NEW_VERSION}/${DEPLOY_UNIT}"
+git commit -m "release/${NEW_VERSION}/${TEAM}"
 
 # add tag
-git tag "${NEW_VERSION}-${DEPLOY_UNIT}"
+git tag "${NEW_VERSION}-${TEAM}"
 
 
 # push to repo
-git push --set-upstream origin "release/${NEW_VERSION}/${DEPLOY_UNIT}"
+git push --set-upstream origin "release/${NEW_VERSION}/${TEAM}"
 git push --tags

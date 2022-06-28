@@ -224,7 +224,7 @@ resources:
   #       repoName: bank-of-anthos
   #       project: ${project.projectId}
   #     substitutions:
-  #       _DEPLOY_UNIT: accounts
+  #       _TEAM: accounts
   #       _CACHE_URI: gs://${cache-bucket.name}/${cache-accounts.name}
   #       _CONTAINER_REGISTRY: ${google-native:region}-docker.pkg.dev/${google-native:project}/${registry-name}      
   #   options:
@@ -246,7 +246,7 @@ resources:
   #       repoName: bank-of-anthos
   #       project: ${project.projectId}
   #     substitutions:
-  #       _DEPLOY_UNIT: frontend
+  #       _TEAM: frontend
   #       _CACHE_URI: gs://${cache-bucket.name}/${cache-frontend.name}
   #       _CONTAINER_REGISTRY: ${google-native:region}-docker.pkg.dev/${google-native:project}/${registry-name}
   #   options:
@@ -268,7 +268,7 @@ resources:
   #       repoName: bank-of-anthos
   #       project: ${project.projectId}
   #     substitutions:
-  #       _DEPLOY_UNIT: ledger
+  #       _TEAM: ledger
   #       _CACHE_URI: gs://${cache-bucket.name}/${cache-ledger.name}
   #       _CONTAINER_REGISTRY: ${google-native:region}-docker.pkg.dev/${google-native:project}/${registry-name}
   #   options:
@@ -280,7 +280,7 @@ resources:
   #   type: google-native:clouddeploy/v1:DeliveryPipeline
   #   properties:
   #     deliveryPipelineId: accounts
-  #     description: Delivery pipeline for accounts deploy unit.
+  #     description: Delivery pipeline for accounts team.
   #     serialPipeline:
   #       stages:
   #       - targetId: staging
@@ -297,7 +297,7 @@ resources:
   #   type: google-native:clouddeploy/v1:DeliveryPipeline
   #   properties:
   #     deliveryPipelineId: frontend
-  #     description: Delivery pipeline for frontend deploy unit.
+  #     description: Delivery pipeline for frontend team.
   #     serialPipeline:
   #       stages:
   #       - targetId: staging
@@ -314,7 +314,7 @@ resources:
   #   type: google-native:clouddeploy/v1:DeliveryPipeline
   #   properties:
   #     deliveryPipelineId: ledger
-  #     description: Delivery pipeline for ledger deploy unit.
+  #     description: Delivery pipeline for ledger team.
   #     serialPipeline:
   #       stages:
   #       - targetId: staging

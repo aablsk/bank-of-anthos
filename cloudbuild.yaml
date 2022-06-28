@@ -8,7 +8,7 @@ steps:
       - "--file-output=/workspace/artifacts.json"
       - "--default-repo=$_CONTAINER_REGISTRY"
       - "--cache-file=/workspace/cache"
-      - "--module=$_DEPLOY_UNIT"
+      - "--module=$_TEAM"
   - name: gcr.io/cloud-builders/gsutil
     args: ['cp', '/workspace/cache',  $_CACHE_URI]
   - name: gcr.io/cloud-builders/gcloud
@@ -16,8 +16,8 @@ steps:
       - "deploy"
       - "releases"
       - "create"
-      - "$_DEPLOY_UNIT-$SHORT_SHA"
-      - "--delivery-pipeline=$_DEPLOY_UNIT"
+      - "$_TEAM-$SHORT_SHA"
+      - "--delivery-pipeline=$_TEAM"
       - "--build-artifacts=/workspace/artifacts.json"
-      - "--skaffold-file=src/$_DEPLOY_UNIT/skaffold.yaml"
+      - "--skaffold-file=src/$_TEAM/skaffold.yaml"
       - "--region=europe-west1"

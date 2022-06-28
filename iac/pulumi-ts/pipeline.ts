@@ -38,7 +38,7 @@ const createIntegrationPipeline = (team: string, bucket: google_native.storage.v
         project: projectId,
     },
     substitutions: {
-        _DEPLOY_UNIT: team,
+        _TEAM: team,
         _CACHE_URI: pulumi.interpolate`gs://${bucket.name}/${team}/cache`,
         _CONTAINER_REGISTRY: `${region}-docker.pkg.dev/${projectId}/${registryName}`,
     },
