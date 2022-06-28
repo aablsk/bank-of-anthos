@@ -1,11 +1,11 @@
-terraform {
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = "4.24.0"
-    }
-  }
-}
+# terraform {
+#   required_providers {
+#     google = {
+#       source  = "hashicorp/google"
+#       version = "4.24.0"
+#     }
+#   }
+# }
 
 variable "registry_name" {
     type = string

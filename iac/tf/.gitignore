@@ -1,1 +1,2 @@
 terraform.tfvars
+gcs_state.tf
