@@ -28,8 +28,20 @@ spec:
     spec:
       serviceAccountName: default
       terminationGracePeriodSeconds: 5
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
       containers:
       - name: balancereader
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - all
+          privileged: false
+          readOnlyRootFilesystem: true
         image: balancereader
         env:
         - name: VERSION
@@ -83,7 +95,13 @@ spec:
           initialDelaySeconds: 120
           periodSeconds: 5
           timeoutSeconds: 10
-# [END gke_boa_kubernetes_manifests_balance_reader_deployment_balancereader]
+        startupProbe:
+          httpGet:
+            path: /healthy
+            port: 8080
+          failureThreshold: 30
+          periodSeconds: 10
+# [END gke_dev_kubernetes_manifests_balance_reader_deployment_balancereader]
 ---
 # [START gke_boa_kubernetes_manifests_balance_reader_service_balancereader]
 apiVersion: v1

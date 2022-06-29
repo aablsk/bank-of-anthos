@@ -28,8 +28,20 @@ spec:
     spec:
       serviceAccountName: default
       terminationGracePeriodSeconds: 5
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
       containers:
       - name: ledgerwriter
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - all
+          privileged: false
+          readOnlyRootFilesystem: true
         image: ledgerwriter
         env:
         - name: VERSION
@@ -72,7 +84,13 @@ spec:
           initialDelaySeconds: 60
           periodSeconds: 5
           timeoutSeconds: 10
-# [END gke_boa_kubernetes_manifests_ledger_writer_deployment_ledgerwriter]
+        startupProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          failureThreshold: 30
+          periodSeconds: 10
+# [END gke_dev_kubernetes_manifests_ledger_writer_deployment_ledgerwriter]
 ---
 # [START gke_boa_kubernetes_manifests_ledger_writer_service_ledgerwriter]
 apiVersion: v1
