@@ -35,5 +35,6 @@ steps:
       - "--build-artifacts=/workspace/artifacts.json"
       - "--skaffold-file=src/$_TEAM/skaffold.yaml"
       - "--region=europe-west1"
+      - "--gcs-source-staging-dir=gs://release-source-staging-728354896410/$_TEAM-$SHORT_SHA"
 options:
   logging: CLOUD_LOGGING_ONLY
