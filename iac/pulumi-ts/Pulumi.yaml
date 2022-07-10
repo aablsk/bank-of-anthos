@@ -1,4 +1,3 @@
-name: boa-cicd
+name: bank-of-anthos
 runtime: nodejs
-description: Continuous integration and continuous delivery with skaffold, kustomize,
-  Cloud Build, Cloud Deploy
+description: Continuous integration and continuous delivery with skaffold, kustomize, Cloud Build, Cloud Deploy

@@ -1,0 +1,6 @@
+encryptionsalt: v1:oYXUBDjKMFM=:v1:WzpHEUuo5pbmquNO:LFY+Pow4a8yspvsO60Atk633BC00Bw==
+config:
+  bank-of-anthos:projectOwner: admin@bielski.altostrat.com
+  bank-of-anthos:registryName: bank-of-anthos
+  google-native:project: boa-pulumi-ts
+  google-native:region: europe-west1
