@@ -9,19 +9,9 @@ import { interpolate } from "@pulumi/pulumi";
 export const createCloudBuildServiceAccount = (cloudDeployServiceAccount: ServiceAccount) => {
     const cloudBuildServiceAccount = new ServiceAccount("cloud-build", { accountId: "cloud-build", project: project }, { dependsOn: [api.iam] })
 
-    new IAMBinding("cloudbuild-logWriter", {
-        members: [interpolate`serviceAccount:${cloudBuildServiceAccount.email}`],
-        role: "roles/logging.logWriter",
-        project: project as string,
-    }, { dependsOn: [api.iam, cloudBuildServiceAccount] });
     new IAMBinding("cloudbuild-releaser", {
         members: [interpolate`serviceAccount:${cloudBuildServiceAccount.email}`],
         role: "roles/clouddeploy.releaser",
-        project: project as string,
-    }, { dependsOn: [api.clouddeploy, cloudBuildServiceAccount] });
-    new IAMBinding("cloudbuild-storage-admin", {
-        members: [interpolate`serviceAccount:${cloudBuildServiceAccount.email}`],
-        role: "roles/storage.admin",
         project: project as string,
     }, { dependsOn: [api.clouddeploy, cloudBuildServiceAccount] });
 

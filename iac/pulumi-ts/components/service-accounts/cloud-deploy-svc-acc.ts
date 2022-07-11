@@ -8,17 +8,17 @@ import { interpolate } from "@pulumi/pulumi";
 export const createCloudDeployServiceAccount = () => {
     const serviceAccount = new ServiceAccount("cloud-deploy", { accountId: "cloud-deploy", project: project }, { dependsOn: [api.iam] })
 
-    new IAMBinding("clouddeploy-logWriter", {
+   /*  new IAMBinding("clouddeploy-logWriter", {
         members: [interpolate`serviceAccount:${serviceAccount.email}`],
         role: "roles/logging.logWriter",
         project: project as string,
-    }, { dependsOn: [api.iam, serviceAccount] });
+    }, { dependsOn: [api.iam, serviceAccount] }); */
 
-    new IAMBinding("clouddeploy-gcs-reader", {
+   /*  new IAMBinding("clouddeploy-gcs-reader", {
         members: [interpolate`serviceAccount:${serviceAccount.email}`],
         role: "roles/storage.objectViewer",
         project: project as string,
-    }, { dependsOn: [api.iam, serviceAccount] });
+    }, { dependsOn: [api.iam, serviceAccount] }); */
 
     new IAMBinding("clouddeploy-k8s", {
         members: [interpolate`serviceAccount:${serviceAccount.email}`],

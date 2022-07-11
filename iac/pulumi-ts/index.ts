@@ -24,8 +24,8 @@ const teams = [
 // create shared resources (GCS bucket for caching, source repo for code mirroring, adds rolebindings)
 const artifactRegistry = createArtifactRegistry(gkeServiceAccount, cloudBuildServiceAccount);
 const sourceMirror = createSourceRepo(cloudBuildServiceAccount);
-const cacheBucket = createBucket("build-cache", cloudBuildServiceAccount);
-const releaseStagingBucket = createBucket("release-source-staging", cloudDeployServiceAccount);
+const cacheBucket = createBucket("build-cache", [cloudBuildServiceAccount]);
+const releaseStagingBucket = createBucket("release-source-staging", [cloudDeployServiceAccount, cloudBuildServiceAccount]);
 
 // create environments (gke, network, cloud deploy target)
 const envs = Object.assign({}, ...(envNames.map(name => ({ [name]: createEnv(name, gkeServiceAccount, cloudDeployServiceAccount) }))));

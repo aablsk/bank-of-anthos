@@ -5,11 +5,6 @@ import { getProject } from "@pulumi/google-native/cloudresourcemanager/v1";
 
 export const setupGkeNodeServiceAccountPermissions = () => {
     const projectInfo = getProject({ project: projectId });
-    new IAMBinding("logWriter", {
-        members: [projectInfo.then(projectInfo => `serviceAccount:${projectInfo.projectNumber}-compute@developer.gserviceaccount.com`),],
-        role: "roles/logging.logWriter",
-        project: projectId,
-    }, { dependsOn: [api.iam] })
     new IAMBinding("metricWriter", {
         members: [projectInfo.then(projectInfo => `serviceAccount:${projectInfo.projectNumber}-compute@developer.gserviceaccount.com`),],
         role: "roles/monitoring.metricWriter",
