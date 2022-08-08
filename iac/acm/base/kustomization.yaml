@@ -5,4 +5,4 @@ resources:
   - namespace.yaml
   - sa.yaml
   - config.yaml
-  - ../../../extras/jwt/jwt-secret.yaml
+  - jwt-secret.yaml
