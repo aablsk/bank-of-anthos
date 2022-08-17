@@ -9,7 +9,7 @@ resource "google_cloudbuild_trigger" "ci" {
         branch = "^main$"
       }
   }
-  included_files = ["src/${var.team}/**/*", "src/components/**/*"]
+  included_files = ["src/${var.team}/**", "src/components/**"]
   filename = "src/${var.team}/cloudbuild.yaml"
   substitutions = {
       _TEAM = "${var.team}"
