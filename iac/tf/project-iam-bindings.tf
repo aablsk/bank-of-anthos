@@ -25,8 +25,14 @@ module "project-iam-bindings" {
       local.cloud_build_sas,
       local.cloud_deploy_sas
     ),
-    "roles/cloudbuild.builds.builder" = local.cloud_build_sas,
-    "roles/clouddeploy.releaser"      = local.cloud_build_sas,
-    "roles/container.developer"       = local.cloud_deploy_sas
+    "roles/cloudbuild.builds.builder" = setunion(
+      [
+        "serviceAccount:${data.google_project.project.number}@cloudbuild.gserviceaccount.com",
+        "user:admin@bielski.altostrat.com"
+      ],
+      local.cloud_build_sas
+    ),
+    "roles/clouddeploy.releaser" = local.cloud_build_sas,
+    "roles/container.developer"  = local.cloud_deploy_sas
   }
 }
