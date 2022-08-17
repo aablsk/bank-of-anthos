@@ -9,10 +9,6 @@ resource "google_cloudbuild_trigger" "ci" {
         branch = "^main$"
       }
   }
-  /* trigger_template {
-    repo_name = var.source_repository.name
-    branch_name = "^main$"
-  } */
   included_files = ["src/${var.team}/**", "src/components/**"]
   filename = "src/${var.team}/cloudbuild.yaml"
   substitutions = {
