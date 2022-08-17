@@ -3,6 +3,6 @@ resource "google_sourcerepo_repository" "source_mirror" {
   project = var.project_id
 
   depends_on = [
-    google_project_service.sourcerepo
+    module.enabled_google_apis
   ]
 }

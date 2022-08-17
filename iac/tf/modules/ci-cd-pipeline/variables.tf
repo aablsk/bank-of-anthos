@@ -17,22 +17,19 @@ variable "container_registry" {
     description = "Container registry object"
 }
 
-variable "source_repository" {
-    type = object({
-        name = string
-        project = string
-    })
-    description = "Name of the source repository to clone from"
+variable "repo_owner" {
+    type = string
+    description = "Owner of the repo that contains source."
+}
+
+variable "repo_name" {
+    type = string
+    description = "Name of the repo that contains source."
 }
 
 variable "team" {
     type = string
     description = "Name of the team"
-}
-
-variable "pipeline_definition_filename" {
-    type = string
-    description = "Name of the file containing the cloud build pipeline definition. Relative path from repository root"
 }
 
 variable "targets" {
@@ -42,10 +39,8 @@ variable "targets" {
 
 variable "clusters" {
     type = map(object({
-        cluster = object({
-            location = string
-            id = string
+        cluster_id = string
         })
-    }))
+    )
     description = "Clusters that have been created and shall be used as targets. Keys must be a superset of targets list."
 }

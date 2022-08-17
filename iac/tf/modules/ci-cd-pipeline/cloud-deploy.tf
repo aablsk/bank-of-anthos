@@ -6,7 +6,7 @@ resource "google_clouddeploy_target" "targets" {
   location = var.region
 
   gke {
-    cluster = var.clusters[each.key].cluster.id
+    cluster = var.clusters[each.key].cluster_id
   }
 
   execution_configs{
