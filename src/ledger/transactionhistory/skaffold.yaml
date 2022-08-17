@@ -15,6 +15,10 @@ deploy:
   kustomize:
     paths: ["k8s/base"]
 profiles:
+  - name: development
+    deploy:
+      kustomize:
+        paths: ["k8s/development"]
   - name: staging
     deploy:
       kustomize:

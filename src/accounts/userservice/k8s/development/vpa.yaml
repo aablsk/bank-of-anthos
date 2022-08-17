@@ -1,0 +1,13 @@
+---
+  apiVersion: autoscaling.k8s.io/v1
+  kind: VerticalPodAutoscaler
+  metadata:
+    name: userservice-vpa
+  spec:
+    targetRef:
+      apiVersion: "apps/v1"
+      kind: Deployment
+      name: userservice
+    updatePolicy:
+      updateMode: "Auto"
+      minReplicas: 1

@@ -16,6 +16,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: bank-of-anthos
   name: loadgenerator
 spec:
   selector:
