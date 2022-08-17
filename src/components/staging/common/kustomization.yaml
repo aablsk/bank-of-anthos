@@ -3,10 +3,3 @@ kind: Component
 namespace: bank-of-anthos-staging
 commonLabels:
   cluster: staging
-patches:
-  - target:
-      kind: Deployment
-    patch: |-
-      - op: replace
-        path: /spec/template/spec/serviceAccountName
-        value: gke-workload-staging
