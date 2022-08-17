@@ -23,7 +23,7 @@ profiles:
     deploy:
       kustomize:
         paths: ["k8s/staging"]
-  - name: production-awesome
+  - name: production
     deploy:
       kustomize:
-        paths: ["k8s/production", "k8s/config"]
+        paths: ["k8s/production"]
