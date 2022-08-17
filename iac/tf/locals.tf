@@ -15,5 +15,7 @@ locals {
     "staging"     = module.gke_staging
     "production"  = module.gke_production
   }
-  sync_repo_url = "https://www.github.com/${var.repo_owner}/${var.sync_repo}"
+  sync_repo_url    = "https://www.github.com/${var.repo_owner}/${var.sync_repo}"
+  cloud_build_sas  = [for team in var.teams : module.ci-cd-pipeline[team].cloud_build_sa]
+  cloud_deploy_sas = [for team in var.teams : module.ci-cd-pipeline[team].cloud_deploy_sa]
 }
