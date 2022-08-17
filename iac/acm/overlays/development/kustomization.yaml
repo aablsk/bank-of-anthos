@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: bank-of-anthos-development
 resources:
   - ../../base
+  - namespace.yaml
 patches:
 - target:
     kind: ServiceAccount
