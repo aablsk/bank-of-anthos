@@ -8,6 +8,7 @@ module "project-iam-bindings" {
       "serviceAccount:${google_service_account.gke_workload_development.email}",
       "serviceAccount:${google_service_account.gke_workload_staging.email}",
       "serviceAccount:${google_service_account.gke_workload_production.email}",
+      "serviceAccount:${data.google_project.project.number}-compute@developer.gserviceaccount.com"
     ],
     "roles/monitoring.metricWriter" = [
       "serviceAccount:${google_service_account.gke_workload_development.email}",
