@@ -67,7 +67,7 @@ module "acm-staging" {
   providers = {
     kubernetes = kubernetes.staging
   }
-}
+} 
 
 module "asm-staging" { # needs this PR to work: https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/pull/1354
   source           = "terraform-google-modules/kubernetes-engine/google//modules/asm"
