@@ -4,4 +4,3 @@ resources:
   - sa.yaml
   - config.yaml
   - jwt-secret.yaml
-  - config-management-patch.yaml
