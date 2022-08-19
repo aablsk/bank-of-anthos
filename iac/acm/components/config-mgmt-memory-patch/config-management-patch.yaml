@@ -16,6 +16,6 @@ spec:
           - name: manager
             resources:
               requests:
-                memory: "200Mi"
+                memory: "100Mi"
               limits:
-                memory: "1Gi"
+                memory: "100Mi"
