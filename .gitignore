@@ -173,7 +173,6 @@ extras/asm-multicluster/asm-cluster-2/*
 *.csr
 *.key
 *.crt
-env
 multicluster-ingress-https.yaml
 
 # Node
