@@ -21,7 +21,14 @@ resource "google_storage_bucket_object" "cache" {
   bucket = google_storage_bucket.build_cache.name
 
   name   = local.cache_filename
-  source = "modules/ci-cd-pipeline/cache"
+  content = " "
+
+  lifecycle {
+    ignore_changes = [
+        content,
+        detect_md5hash
+    ]
+  }
 }
 
 # permissions for cache
