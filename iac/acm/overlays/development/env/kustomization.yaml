@@ -17,3 +17,4 @@ patches:
 #   patch: |-
 #     - op: remove
 #       path: /metadata/namespace
+
