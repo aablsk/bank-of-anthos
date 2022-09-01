@@ -10,5 +10,5 @@ patches:
   patch: |-
     - op: add
       path: /metadata/annotations/iam.gke.io~1gcp-service-account
-      value: gke-workload-staging@boa-tf-max-2g.iam.gserviceaccount.com 
+      value: gke-workload-staging@boa-tf-max-2.iam.gserviceaccount.com 
 # TODO: how to inject projectId here?
