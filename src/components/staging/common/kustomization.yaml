@@ -3,3 +3,5 @@ kind: Component
 namespace: bank-of-anthos-staging
 commonLabels:
   cluster: staging
+components:
+  - ../../base/istio-proxy-hold-application-patch

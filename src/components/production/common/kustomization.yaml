@@ -3,3 +3,5 @@ kind: Component
 namespace: bank-of-anthos-production
 commonLabels:
   environment: production
+components:
+  - ../../base/istio-proxy-hold-application-patch

@@ -5,3 +5,4 @@ commonLabels:
   environment: development
 components:
   - ../../base/common
+  - ../../base/istio-proxy-hold-application-patch
