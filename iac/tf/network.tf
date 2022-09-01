@@ -73,4 +73,8 @@ module "network" {
       },
     ]
   }
+
+  depends_on = [
+    module.enabled_google_apis
+  ]
 }

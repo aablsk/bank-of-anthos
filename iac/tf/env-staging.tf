@@ -8,14 +8,14 @@ provider "kubernetes" {
 module "gke_staging" {
   source = "terraform-google-modules/kubernetes-engine/google//modules/beta-autopilot-public-cluster"
 
-  project_id                      = var.project_id
-  name                            = "staging"
-  regional                        = true
-  region                          = var.region
-  network                         = local.network_name
-  subnetwork                      = local.network.staging.subnetwork
-  ip_range_pods                   = local.network.staging.ip_range_pods
-  ip_range_services               = local.network.staging.ip_range_services
+  project_id        = var.project_id
+  name              = "staging"
+  regional          = true
+  region            = var.region
+  network           = local.network_name
+  subnetwork        = local.network.staging.subnetwork
+  ip_range_pods     = local.network.staging.ip_range_pods
+  ip_range_services = local.network.staging.ip_range_services
   #master_authorized_networks      = local.network.staging.master_auth_subnet_name
   release_channel                 = "RAPID"
   enable_vertical_pod_autoscaling = true
@@ -30,7 +30,9 @@ module "gke_staging" {
 
   depends_on = [
     module.enabled_google_apis,
-    module.network
+    module.network,
+    google_gke_hub_feature.asm,
+    google_gke_hub_feature.acm
   ]
 }
 
@@ -47,37 +49,40 @@ resource "google_service_account_iam_member" "gke_workload_staging_identity" {
   ]
 }
 
-module "acm-staging" {
-  source = "terraform-google-modules/kubernetes-engine/google//modules/acm"
-
+module "asm-staging" {
+  source                    = "terraform-google-modules/kubernetes-engine/google//modules/asm"
   project_id                = var.project_id
   cluster_name              = module.gke_staging.name
-  location                  = module.gke_staging.location
-  sync_repo                 = local.sync_repo_url
-  sync_branch               = var.sync_branch
-  enable_fleet_feature      = false
+  cluster_location          = module.gke_staging.location
+  enable_cni                = true
   enable_fleet_registration = true
-  policy_dir                = "iac/acm/overlays/staging"
-  source_format             = "unstructured"
 
-  depends_on = [
+  module_depends_on = [
     module.gke_staging
   ]
 
   providers = {
     kubernetes = kubernetes.staging
   }
-} 
+}
 
-module "asm-staging" { # needs this PR to work: https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/pull/1354
-  source           = "terraform-google-modules/kubernetes-engine/google//modules/asm"
-  project_id       = var.project_id
-  cluster_name     = module.gke_staging.name
-  cluster_location = module.gke_staging.location
-  enable_cni       = true
 
-  module_depends_on = [
-    module.acm-staging
+module "acm-staging" {
+  source = "terraform-google-modules/kubernetes-engine/google//modules/acm"
+
+  project_id                = var.project_id
+  cluster_name              = module.gke_staging.name
+  cluster_membership_id     = "staging-membership"
+  location                  = module.gke_staging.location
+  sync_repo                 = local.sync_repo_url
+  sync_branch               = var.sync_branch
+  enable_fleet_feature      = false
+  enable_fleet_registration = false
+  policy_dir                = "iac/acm/overlays/staging"
+  source_format             = "unstructured"
+
+  depends_on = [
+    module.asm-staging
   ]
 
   providers = {

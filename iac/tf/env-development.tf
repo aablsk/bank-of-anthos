@@ -8,14 +8,14 @@ provider "kubernetes" {
 module "gke_development" {
   source = "terraform-google-modules/kubernetes-engine/google//modules/beta-autopilot-public-cluster"
 
-  project_id                      = var.project_id
-  name                            = "development"
-  regional                        = true
-  region                          = var.region
-  network                         = local.network_name
-  subnetwork                      = local.network.development.subnetwork
-  ip_range_pods                   = local.network.development.ip_range_pods
-  ip_range_services               = local.network.development.ip_range_services
+  project_id        = var.project_id
+  name              = "development"
+  regional          = true
+  region            = var.region
+  network           = local.network_name
+  subnetwork        = local.network.development.subnetwork
+  ip_range_pods     = local.network.development.ip_range_pods
+  ip_range_services = local.network.development.ip_range_services
   #master_authorized_networks      = local.network.development.master_auth_subnet_name
   release_channel                 = "RAPID"
   enable_vertical_pod_autoscaling = true
@@ -30,6 +30,8 @@ module "gke_development" {
 
   depends_on = [
     module.enabled_google_apis,
+    google_gke_hub_feature.asm,
+    google_gke_hub_feature.acm,
     module.network
   ]
 }
@@ -47,21 +49,16 @@ resource "google_service_account_iam_member" "gke_workload_development_identity"
   ]
 }
 
-module "acm-development" {
-  source = "terraform-google-modules/kubernetes-engine/google//modules/acm"
-
+module "asm-development" { # needs this PR to work: https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/pull/1354
+  source                    = "terraform-google-modules/kubernetes-engine/google//modules/asm"
   project_id                = var.project_id
   cluster_name              = module.gke_development.name
-  location                  = module.gke_development.location
-  sync_repo                 = local.sync_repo_url
-  sync_branch               = var.sync_branch
-  enable_fleet_feature      = true
+  cluster_location          = module.gke_development.location
+  enable_cni                = true
   enable_fleet_registration = true
-  policy_dir                = "iac/acm/overlays/development"
-  source_format             = "unstructured"
 
-  depends_on = [
-    module.gke_development
+  module_depends_on = [
+    module.gke_development,
   ]
 
   providers = {
@@ -69,15 +66,22 @@ module "acm-development" {
   }
 }
 
-module "asm-development" { # needs this PR to work: https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/pull/1354
-  source           = "terraform-google-modules/kubernetes-engine/google//modules/asm"
-  project_id       = var.project_id
-  cluster_name     = module.gke_development.name
-  cluster_location = module.gke_development.location
-  enable_cni       = true
+module "acm-development" {
+  source = "terraform-google-modules/kubernetes-engine/google//modules/acm"
 
-  module_depends_on = [
-    module.acm-development
+  project_id                = var.project_id
+  cluster_name              = module.gke_development.name
+  cluster_membership_id     = "development-membership"
+  location                  = module.gke_development.location
+  sync_repo                 = local.sync_repo_url
+  sync_branch               = var.sync_branch
+  enable_fleet_feature      = false
+  enable_fleet_registration = false
+  policy_dir                = "iac/acm/overlays/development"
+  source_format             = "unstructured"
+
+  depends_on = [
+    module.asm-development
   ]
 
   providers = {

@@ -1,17 +1,17 @@
 resource "google_storage_bucket" "build_cache" {
-  name                        = "build-cache-${var.team}"
+  name                        = "build-cache-${var.team}-${var.project_id}"
   uniform_bucket_level_access = true
   location                    = var.region
 }
 
 resource "google_storage_bucket" "release_source_staging" {
-  name                        = "release-source-staging-${var.team}"
+  name                        = "release-source-staging-${var.team}-${var.project_id}"
   uniform_bucket_level_access = true
   location                    = var.region
 }
 
 resource "google_storage_bucket" "delivery_artifacts" {
-  name                        = "delivery-artifacts-${var.team}"
+  name                        = "delivery-artifacts-${var.team}-${var.project_id}"
   uniform_bucket_level_access = true
   location                    = var.region
 }

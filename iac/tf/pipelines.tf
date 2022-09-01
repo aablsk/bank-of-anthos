@@ -11,4 +11,8 @@ module "ci-cd-pipeline" {
   team = each.value
   clusters = local.clusters
   targets = var.targets
+
+  depends_on = [
+    module.enabled_google_apis
+  ]
 }

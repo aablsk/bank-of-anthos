@@ -1,4 +1,4 @@
-project_id = "boa-tf-1"
+project_id = "boa-tf-max-2"
 region = "europe-west1"
 teams = ["frontend", "accounts", "ledger"]
 targets = ["staging", "production"]
