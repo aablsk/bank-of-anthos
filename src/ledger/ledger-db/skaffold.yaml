@@ -2,23 +2,14 @@ apiVersion: skaffold/v2beta26
 kind: Config
 metadata: 
   name: ledger-db
-build:
-  artifacts:
-    - image: ledger-db
-      context: .
-deploy:
-  kustomize:
-    paths: ["k8s/base"]
 profiles:
   - name: development
+    activation:
+      - command: dev
     deploy:
       kustomize:
         paths: ["k8s/development"]
-  - name: staging
-    deploy:
-      kustomize:
-        paths: ["k8s/staging"]
-  - name: production
-    deploy:
-      kustomize:
-        paths: ["k8s/production"]
+    build:
+      artifacts:
+        - image: ledger-db
+          context: .

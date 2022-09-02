@@ -11,6 +11,8 @@ build:
       context: .
 profiles:
   - name: development
+    activation:
+      - command: dev
     deploy:
       kustomize:
         paths: ["k8s/development"]

@@ -23,5 +23,6 @@ requires:
     path: src/ledger/skaffold.yaml
   - configs: [frontend]
     path: src/frontend/skaffold.yaml
-  # - configs: [loadgenerator]
-  #   path: src/loadgenerator/skaffold.yaml
+  - configs: [loadgenerator]
+    path: src/loadgenerator/skaffold.yaml
+  

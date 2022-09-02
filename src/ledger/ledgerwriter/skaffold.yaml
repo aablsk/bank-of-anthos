@@ -11,11 +11,10 @@ build:
       context: ../../../
       jib:
         project: src/ledger/ledgerwriter
-deploy:
-  kustomize:
-    paths: ["k8s/base"]
 profiles:
   - name: development
+    activation:
+      - command: dev
     deploy:
       kustomize:
         paths: ["k8s/development"]

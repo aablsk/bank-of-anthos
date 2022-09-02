@@ -67,9 +67,6 @@ spec:
             name: environment-config
         - configMapRef:
             name: service-api-config
-        # add ledger-db credentials from ConfigMap
-        - configMapRef:
-            name: ledger-db-config
         resources:
           requests:
             cpu: 100m
