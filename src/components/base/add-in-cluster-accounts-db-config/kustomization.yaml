@@ -9,9 +9,3 @@ patches:
         value: 
           configMapRef:
             name: accounts-db-config
-  - target:
-      kind: StatefulSet
-    patch: |-
-      - op: replace
-        path: /spec/template/spec/serviceAccount
-        value: bank-of-anthos
