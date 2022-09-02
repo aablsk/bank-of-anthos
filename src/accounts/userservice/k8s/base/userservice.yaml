@@ -63,8 +63,6 @@ spec:
         envFrom:
         - configMapRef:
             name: environment-config
-        - configMapRef:
-            name: accounts-db-config
         readinessProbe:
           httpGet:
             path: /ready

@@ -5,3 +5,4 @@ resources:
   - vpa.yaml
 components:
   - ../../../../components/development/common
+  - ../../../../components/base/add-in-cluster-accounts-db-config
