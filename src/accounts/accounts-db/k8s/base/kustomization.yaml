@@ -4,5 +4,6 @@ commonLabels:
   tier: db
 resources:
   - accounts-db.yaml
+  - config.yaml
 components:
   - ../../../components/base/common
