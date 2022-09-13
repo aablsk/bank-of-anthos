@@ -279,16 +279,10 @@ spec:
           mountPath: "/scripts"
           readOnly: true
         env:
-        # - name: PGUSER
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: cloud-sql-admin
-        #       key: username
-        # - name: PGPASSWORD
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: cloud-sql-admin
-        #       key: password
+        - name: PGUSER
+          value: admin
+        - name: PGPASSWORD
+          value: admin
         # /start: Required for testing data
         - name: LOCAL_ROUTING_NUM
           valueFrom:
@@ -305,7 +299,7 @@ spec:
         - name: PGHOSTADDR
           value: "127.0.0.1"
         - name: POSTGRES_USER
-          value: adnub
+          value: admin
         - name: POSTGRES_PASSWORD
           value: admin
       # /end: Required for testing data
@@ -315,15 +309,14 @@ spec:
           limits:
             cpu: "200m"
             memory: "100Mi"
-        image: gcr.io/cloudsql-docker/gce-proxy:latest
+        image: gcr.io/cloudsql-docker/gce-proxy:1.32.0-buster
         env:
         - name: CONNECTION_NAME
           valueFrom:
             configMapKeyRef:
               name: cloud-sql-admin
               key: connectionName
-        command: ["/cloud_sql_proxy",
-                  "-instances=$(CONNECTION_NAME)=tcp:5432"]
+        command: ["/bin/bash", "-c", "sleep 10 && echo asdf && /cloud_sql_proxy -instances=$(CONNECTION_NAME)=tcp:5432"]
         securityContext:
           runAsNonRoot: true
       volumes:
