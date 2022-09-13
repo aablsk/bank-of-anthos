@@ -19,6 +19,7 @@ module "enabled_google_apis" {
     "mesh.googleapis.com",
     "meshconfig.googleapis.com",
     "meshtelemetry.googleapis.com",
-    "iam.googleapis.com"
+    "iam.googleapis.com",
+    "sqladmin.googleapis.com"
   ]
 }
