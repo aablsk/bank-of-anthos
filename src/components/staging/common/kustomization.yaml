@@ -5,4 +5,3 @@ commonLabels:
   cluster: staging
 components:
   - ../../base/istio-proxy-hold-application-patch
-  - ../../base/cloud-sql

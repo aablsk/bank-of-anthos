@@ -15,4 +15,8 @@ profiles:
       artifacts:
         - image: accounts-db
           context: .
+  - name: staging
+    deploy:
+      kustomize:
+        paths: ["k8s/staging"]
 
