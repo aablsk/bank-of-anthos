@@ -57,6 +57,8 @@ spec:
         envFrom:
         - configMapRef:
             name: environment-config
+        - configMapRef:
+            name: accounts-db-config
         resources:
           requests:
             cpu: 100m
