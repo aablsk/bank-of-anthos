@@ -5,6 +5,8 @@ metadata:
 profiles:
   - name: staging
     build:
+      tagPolicy:
+        sha256: {}
       artifacts:
       - image: loadgenerator
         context: .

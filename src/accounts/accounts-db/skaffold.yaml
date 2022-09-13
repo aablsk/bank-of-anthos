@@ -10,6 +10,8 @@ profiles:
       kustomize:
         paths: ["k8s/development"]
     build:
+      tagPolicy:
+        sha256: {}
       artifacts:
         - image: accounts-db
           context: .

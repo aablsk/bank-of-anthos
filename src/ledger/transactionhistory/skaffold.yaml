@@ -6,6 +6,8 @@ requires:
   - configs: [ledger-db]
     path: ../ledger-db/skaffold.yaml
 build:
+  tagPolicy:
+    sha256: {}
   artifacts:
     - image: transactionhistory
       context: ../../../

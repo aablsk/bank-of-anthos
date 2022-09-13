@@ -3,6 +3,8 @@ kind: Config
 metadata: 
   name: frontend
 build:
+  tagPolicy:
+    sha256: {}
   artifacts:
     - image: frontend
       context: .
