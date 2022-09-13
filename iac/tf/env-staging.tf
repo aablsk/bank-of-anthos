@@ -98,6 +98,7 @@ module "asm-staging" {
   project_id       = var.project_id
   cluster_name     = module.gke_staging.name
   cluster_location = module.gke_staging.location
+  enable_cni       = true
 
   module_depends_on = [
     google_gke_hub_membership.staging

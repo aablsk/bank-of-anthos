@@ -62,10 +62,11 @@ resource "google_gke_hub_membership" "development" {
 }
 
 module "asm-development" { # needs this PR to work: https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/pull/1354
-  source                    = "terraform-google-modules/kubernetes-engine/google//modules/asm"
-  project_id                = var.project_id
-  cluster_name              = module.gke_development.name
-  cluster_location          = module.gke_development.location
+  source           = "terraform-google-modules/kubernetes-engine/google//modules/asm"
+  project_id       = var.project_id
+  cluster_name     = module.gke_development.name
+  cluster_location = module.gke_development.location
+  enable_cni       = true
 
   module_depends_on = [
     google_gke_hub_membership.development
