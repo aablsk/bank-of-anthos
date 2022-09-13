@@ -49,16 +49,58 @@ resource "google_service_account_iam_member" "gke_workload_staging_identity" {
   ]
 }
 
+module "cloudsql_staging" {
+  source = "GoogleCloudPlatform/sql-db/google//modules/postgresql"
+
+  project_id = var.project_id
+  region     = var.region
+  zone       = var.zone
+
+  name              = "${local.cloudsql_name}-staging"
+  database_version  = "POSTGRES_14"
+  enable_default_db = false
+  # ip_configuration - should we use this or is default ok?
+  tier = "db-custom-1-3840"
+  deletion_protection = false
+
+  additional_databases = [
+    {
+      name      = "accounts-db"
+      charset   = ""
+      collation = ""
+    },
+    {
+      name      = "ledger-db"
+      charset   = ""
+      collation = ""
+    }
+  ]
+  user_name     = "admin"
+  user_password = "admin" # this is a security risk - do not do this for real world use-cases!
+}
+
+resource "google_gke_hub_membership" "staging" {
+  provider      = google-beta
+  project       = var.project_id
+  membership_id = "staging-membership"
+  endpoint {
+    gke_cluster {
+      resource_link = "//container.googleapis.com/${module.gke_staging.cluster_id}"
+    }
+  }
+  authority {
+    issuer = "https://container.googleapis.com/v1/${module.gke_staging.cluster_id}"
+  }
+}
+
 module "asm-staging" {
-  source                    = "terraform-google-modules/kubernetes-engine/google//modules/asm"
-  project_id                = var.project_id
-  cluster_name              = module.gke_staging.name
-  cluster_location          = module.gke_staging.location
-  enable_cni                = true
-  enable_fleet_registration = true
+  source           = "terraform-google-modules/kubernetes-engine/google//modules/asm"
+  project_id       = var.project_id
+  cluster_name     = module.gke_staging.name
+  cluster_location = module.gke_staging.location
 
   module_depends_on = [
-    module.gke_staging
+    google_gke_hub_membership.staging
   ]
 
   providers = {

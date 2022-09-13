@@ -4,6 +4,7 @@ namespace: bank-of-anthos-staging
 resources:
   - ../../../base
   - namespace.yaml
+  - configmap.yaml
 patches:
 - target:
     kind: ServiceAccount

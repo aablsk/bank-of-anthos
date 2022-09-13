@@ -4,11 +4,12 @@ namespace: bank-of-anthos-production
 resources:
   - ../../../base
   - namespace.yaml
+  - configmap.yaml
 patches:
-- target:
-    kind: ServiceAccount
-  patch: |-
-    - op: add
-      path: /metadata/annotations/iam.gke.io~1gcp-service-account
-      value: gke-workload-production@boa-tf-max-2.iam.gserviceaccount.com 
-# TODO: how to inject projectId here?
+  - target:
+      kind: ServiceAccount
+    patch: |-
+      - op: add
+        path: /metadata/annotations/iam.gke.io~1gcp-service-account
+        value: gke-workload-production@boa-tf-max-2.iam.gserviceaccount.com 
+  # TODO: how to inject projectId here?

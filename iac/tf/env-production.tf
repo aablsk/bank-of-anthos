@@ -49,16 +49,28 @@ resource "google_service_account_iam_member" "gke_workload_production_identity" 
   ]
 }
 
+resource "google_gke_hub_membership" "production" {
+  provider      = google-beta
+  project       = var.project_id
+  membership_id = "production-membership"
+  endpoint {
+    gke_cluster {
+      resource_link = "//container.googleapis.com/${module.gke_production.cluster_id}"
+    }
+  }
+  authority {
+    issuer = "https://container.googleapis.com/v1/${module.gke_production.cluster_id}"
+  }
+}
+
 module "asm-production" { # needs this PR to work: https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/pull/1354
   source                    = "terraform-google-modules/kubernetes-engine/google//modules/asm"
   project_id                = var.project_id
   cluster_name              = module.gke_production.name
   cluster_location          = module.gke_production.location
-  enable_cni                = true
-  enable_fleet_registration = true
 
   module_depends_on = [
-    module.gke_production
+    google_gke_hub_membership.production
   ]
 
   providers = {

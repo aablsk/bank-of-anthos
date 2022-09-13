@@ -8,6 +8,11 @@ variable "region" {
     description = "Region where regional resources will be deployed"
 }
 
+variable "zone" {
+    type = string
+    description = "Zone where zonal resources will be deployed (should be within region)"
+}
+
 variable "teams" {
     type = list(string)
     description = "Map with team names as string and ci-pipeline-configuration path in value"
