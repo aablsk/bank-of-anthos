@@ -8,9 +8,6 @@ build:
   artifacts:
     - image: frontend
       context: .
-deploy:
-  kustomize:
-    paths: ["k8s/base"]
 profiles:
   - name: development
     activation:
