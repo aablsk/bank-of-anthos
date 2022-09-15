@@ -71,6 +71,8 @@ spec:
         envFrom:
         - configMapRef:
             name: environment-config
+        - configMapRef:
+            name: ledger-db-config
         resources:
           requests:
             cpu: 100m

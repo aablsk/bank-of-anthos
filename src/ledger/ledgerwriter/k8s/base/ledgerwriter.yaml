@@ -67,6 +67,8 @@ spec:
             name: environment-config
         - configMapRef:
             name: service-api-config
+        - configMapRef:
+            name: ledger-db-config
         resources:
           requests:
             cpu: 100m
