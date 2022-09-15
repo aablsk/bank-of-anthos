@@ -4,4 +4,5 @@ resources:
   - ../base
   - accounts-db.yaml
 components:
+  - ../../../components/base/common
   - ../../../../components/development/common

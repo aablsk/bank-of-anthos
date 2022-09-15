@@ -17,9 +17,6 @@ kind: StatefulSet
 apiVersion: apps/v1
 metadata:
   name: accounts-db
-  labels:
-    app: accounts-db
-    tier: db
 spec:
   serviceName: "accounts-db"
   replicas: 1
@@ -44,7 +41,6 @@ spec:
               name: demo-data-config
         ports:
           - containerPort: 5432
-            name: postgredb
         resources:
           requests:
             cpu: 100m
@@ -66,10 +62,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: accounts-db
-  labels:
-    app: accounts-db
-    tier: db
 spec:
+  type: ClusterIP
   ports:
     - port: 5432
       name: tcp
@@ -77,5 +71,4 @@ spec:
       protocol: TCP
   selector:
     app: accounts-db
-    tier: db
 # [END gke_dev_kubernetes_manifests_accounts_db_service_accounts_db]
