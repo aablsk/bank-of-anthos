@@ -30,7 +30,9 @@ module "gke_development" {
 
   depends_on = [
     module.enabled_google_apis,
-    module.network
+    module.network,
+    google_gke_hub_feature.asm,
+    google_gke_hub_feature.acm
   ]
 }
 
@@ -61,21 +63,32 @@ resource "google_gke_hub_membership" "development" {
   }
 }
 
-module "asm-development" { # needs this PR to work: https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/pull/1354
-  source           = "terraform-google-modules/kubernetes-engine/google//modules/asm"
-  project_id       = var.project_id
-  cluster_name     = module.gke_development.name
-  cluster_location = module.gke_development.location
-  enable_cni       = true
+module "asm-development" {
+    source = "terraform-google-modules/gcloud/google"
 
-  module_depends_on = [
-    google_gke_hub_membership.development
-  ]
-
-  providers = {
-    kubernetes = kubernetes.development
-  }
+    platform = "linux"
+    
+    create_cmd_entrypoint = "gcloud"
+    create_cmd_body = "container fleet mesh update --management automatic --memberships ${google_gke_hub_membership.development.membership_id} --project ${var.project_id}"
+    destroy_cmd_entrypoint = "gcloud"
+    destroy_cmd_body = "container fleet mesh update --management manual --memberships ${google_gke_hub_membership.development.membership_id} --project ${var.project_id}"
 }
+
+# module "asm-development" { # needs this PR to work: https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/pull/1354
+#   source           = "terraform-google-modules/kubernetes-engine/google//modules/asm"
+#   project_id       = var.project_id
+#   cluster_name     = module.gke_development.name
+#   cluster_location = module.gke_development.location
+#   enable_cni       = true
+
+#   module_depends_on = [
+#     google_gke_hub_membership.development
+#   ]
+
+#   providers = {
+#     kubernetes = kubernetes.development
+#   }
+# }
 
 module "acm-development" {
   source = "terraform-google-modules/kubernetes-engine/google//modules/acm"

@@ -94,20 +94,31 @@ resource "google_gke_hub_membership" "staging" {
 }
 
 module "asm-staging" {
-  source           = "terraform-google-modules/kubernetes-engine/google//modules/asm"
-  project_id       = var.project_id
-  cluster_name     = module.gke_staging.name
-  cluster_location = module.gke_staging.location
-  enable_cni       = true
+    source = "terraform-google-modules/gcloud/google"
 
-  module_depends_on = [
-    google_gke_hub_membership.staging
-  ]
-
-  providers = {
-    kubernetes = kubernetes.staging
-  }
+    platform = "linux"
+    
+    create_cmd_entrypoint = "gcloud"
+    create_cmd_body = "container fleet mesh update --management automatic --memberships ${google_gke_hub_membership.staging.membership_id} --project ${var.project_id}"
+    destroy_cmd_entrypoint = "gcloud"
+    destroy_cmd_body = "container fleet mesh update --management manual --memberships ${google_gke_hub_membership.staging.membership_id} --project ${var.project_id}"
 }
+
+# module "asm-staging" {
+#   source           = "terraform-google-modules/kubernetes-engine/google//modules/asm"
+#   project_id       = var.project_id
+#   cluster_name     = module.gke_staging.name
+#   cluster_location = module.gke_staging.location
+#   enable_cni       = true
+
+#   module_depends_on = [
+#     google_gke_hub_membership.staging
+#   ]
+
+#   providers = {
+#     kubernetes = kubernetes.staging
+#   }
+# }
 
 
 module "acm-staging" {

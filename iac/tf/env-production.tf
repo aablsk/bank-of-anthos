@@ -63,21 +63,32 @@ resource "google_gke_hub_membership" "production" {
   }
 }
 
-module "asm-production" { # needs this PR to work: https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/pull/1354
-  source           = "terraform-google-modules/kubernetes-engine/google//modules/asm"
-  project_id       = var.project_id
-  cluster_name     = module.gke_production.name
-  cluster_location = module.gke_production.location
-  enable_cni       = true
+module "asm-production" {
+    source = "terraform-google-modules/gcloud/google"
 
-  module_depends_on = [
-    google_gke_hub_membership.production
-  ]
-
-  providers = {
-    kubernetes = kubernetes.production
-  }
+    platform = "linux"
+    
+    create_cmd_entrypoint = "gcloud"
+    create_cmd_body = "container fleet mesh update --management automatic --memberships ${google_gke_hub_membership.production.membership_id} --project ${var.project_id}"
+    destroy_cmd_entrypoint = "gcloud"
+    destroy_cmd_body = "container fleet mesh update --management manual --memberships ${google_gke_hub_membership.production.membership_id} --project ${var.project_id}"
 }
+
+# module "asm-production" { # needs this PR to work: https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/pull/1354
+#   source           = "terraform-google-modules/kubernetes-engine/google//modules/asm"
+#   project_id       = var.project_id
+#   cluster_name     = module.gke_production.name
+#   cluster_location = module.gke_production.location
+#   enable_cni       = true
+
+#   module_depends_on = [
+#     google_gke_hub_membership.production
+#   ]
+
+#   providers = {
+#     kubernetes = kubernetes.production
+#   }
+# }
 
 module "acm-production" {
   source = "terraform-google-modules/kubernetes-engine/google//modules/acm"
