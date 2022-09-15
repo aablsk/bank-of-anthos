@@ -4,3 +4,4 @@ resources:
   - ../base
 components:
   - ../../../../components/production/common
+  - ../../../../components/base/cloud-sql
