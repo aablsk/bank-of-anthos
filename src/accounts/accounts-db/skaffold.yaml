@@ -15,8 +15,16 @@ profiles:
       artifacts:
         - image: accounts-db
           context: .
-  - name: staging-init-db
+  - name: init-db
+    deploy:
+      kustomize:
+        paths: ["k8s/init-db"]
+  - name: staging
     deploy:
       kustomize:
         paths: ["k8s/staging"]
-
+  - name: production
+    deploy:
+      kustomize:
+        paths: ["k8s/production"]
+    

@@ -22,3 +22,10 @@ patches:
           command: ["/cloud_sql_proxy",
                     "-instances=$(CONNECTION_NAME)=tcp:5432"]
 # is it reasonable to use latest tag here?
+  - target:
+      kind: ConfigMap
+      name: accounts-db-config
+    patch: |-
+      - op: replace
+        path: /data/ACCOUNTS_DB_URI
+        value: postgresql://accounts-admin:accounts-pwd@127.0.0.1:5432/accounts-db

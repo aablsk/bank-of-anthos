@@ -256,6 +256,9 @@ metadata:
   name: populate-accounts-db
 spec:
   template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "false"
     spec:
       shareProcessNamespace: true # Important to stop all processes
       serviceAccountName: bank-of-anthos
