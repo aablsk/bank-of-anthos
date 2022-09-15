@@ -1,38 +1,15 @@
 apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
 patches:
-  - target:
+  - path: proxy.yaml
+    target:
       kind: Deployment
-    patch: |-
-      - op: add
-        path: /spec/template/spec/containers/-
-        value:
-          name: cloudsql-proxy
-          resources:
-            limits:
-              cpu: "200m"
-              memory: "100Mi"
-          image: gcr.io/cloudsql-docker/gce-proxy:latest 
-          env:
-          - name: CONNECTION_NAME
-            valueFrom:
-              configMapKeyRef:
-                name: cloud-sql-admin
-                key: connectionName
-          command: ["/cloud_sql_proxy",
-                    "-instances=$(CONNECTION_NAME)=tcp:5432"]
-# is it reasonable to use latest tag here?
-  - target:
-      kind: ConfigMap
-      name: accounts-db-config
-    patch: |-
-      - op: replace
-        path: /data/ACCOUNTS_DB_URI
-        value: postgresql://accounts-admin:accounts-pwd@127.0.0.1:5432/accounts-db
-  - target:
+  - path: ledger-db.yaml
+    target:
       kind: ConfigMap
       name: ledger-db-config
-    patch: |-
-      - op: replace
-        path: /data/SPRING_DATASOURCE_URL
-        value: jdbc:postgresql://127.0.0.1:5432/postgresdb
+  - path: accounts-db.yaml
+    target:
+      kind: ConfigMap
+      name: accounts-db-config
+
