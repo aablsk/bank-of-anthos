@@ -4,4 +4,3 @@ commonLabels:
   tier: backend
 components:
   - ../../../../components/base/add-tmp-dir
-  - ../../../../components/base/cloud-sql

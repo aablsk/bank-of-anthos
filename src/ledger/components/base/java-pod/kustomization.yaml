@@ -5,5 +5,4 @@ commonLabels:
 components:
   - ../../../../components/base/add-tmp-dir
   - ../../../../components/base/add-public-key-volume
-  - ../../../../components/base/cloud-sql
   

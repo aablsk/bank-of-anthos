@@ -5,3 +5,4 @@ resources:
   - vpa.yaml
 components:
   - ../../../../components/staging/common
+  - ../../../../components/base/cloud-sql
