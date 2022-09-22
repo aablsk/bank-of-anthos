@@ -1,4 +1,4 @@
-set -Eeuo pipefail
+set -uo pipefail
 
 echo '🚀  Starting ./01-patch-acm-config.sh'
 echo '🧐  Replacing references to ProjectId in Anthos Config Management configuration...'

@@ -30,6 +30,8 @@ echo "REGION=$REGION"
 echo "ZONE=$ZONE"
 echo "GITHUB_REPO_OWNER=$GITHUB_REPO_OWNER"
 
+gcloud config set project $PROJECT_ID
+
 ./iac/one-click-setup/01-patch-acm-config.sh
 ./iac/one-click-setup/02-terraform.sh
 ./iac/one-click-setup/03-wait-for-asm.sh
