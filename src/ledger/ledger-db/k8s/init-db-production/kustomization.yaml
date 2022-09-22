@@ -5,3 +5,4 @@ resources:
   - populate-job.yaml
 components:
   - ../../../../components/base/common
+  - ../../../../components/production/common

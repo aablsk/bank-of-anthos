@@ -15,10 +15,6 @@ profiles:
       artifacts:
         - image: ledger-db
           context: .
-  - name: init-db
-    deploy:
-      kustomize:
-        paths: ["k8s/init-db"]
   - name: staging
     deploy:
       kustomize:
@@ -27,4 +23,11 @@ profiles:
     deploy:
       kustomize:
         paths: ["k8s/production"]
-    
+  - name: init-db-staging
+    deploy:
+      kustomize:
+        paths: ["k8s/init-db-staging"]
+  - name: init-db-production
+    deploy:
+      kustomize:
+        paths: ["k8s/init-db-production"]

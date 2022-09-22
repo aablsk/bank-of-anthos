@@ -104,23 +104,6 @@ module "asm-staging" {
     destroy_cmd_body = "container fleet mesh update --management manual --memberships ${google_gke_hub_membership.staging.membership_id} --project ${var.project_id}"
 }
 
-# module "asm-staging" {
-#   source           = "terraform-google-modules/kubernetes-engine/google//modules/asm"
-#   project_id       = var.project_id
-#   cluster_name     = module.gke_staging.name
-#   cluster_location = module.gke_staging.location
-#   enable_cni       = true
-
-#   module_depends_on = [
-#     google_gke_hub_membership.staging
-#   ]
-
-#   providers = {
-#     kubernetes = kubernetes.staging
-#   }
-# }
-
-
 module "acm-staging" {
   source = "terraform-google-modules/kubernetes-engine/google//modules/acm"
 

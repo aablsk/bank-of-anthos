@@ -49,6 +49,36 @@ resource "google_service_account_iam_member" "gke_workload_production_identity" 
   ]
 }
 
+module "cloudsql_production" {
+  source = "GoogleCloudPlatform/sql-db/google//modules/postgresql"
+
+  project_id = var.project_id
+  region     = var.region
+  zone       = var.zone
+
+  name              = "${local.cloudsql_name}-production"
+  database_version  = "POSTGRES_14"
+  enable_default_db = false
+  # ip_configuration - should we use this or is default ok?
+  tier = "db-custom-1-3840"
+  deletion_protection = false
+
+  additional_databases = [
+    {
+      name      = "accounts-db"
+      charset   = ""
+      collation = ""
+    },
+    {
+      name      = "ledger-db"
+      charset   = ""
+      collation = ""
+    }
+  ]
+  user_name     = "admin"
+  user_password = "admin" # this is a security risk - do not do this for real world use-cases!
+}
+
 resource "google_gke_hub_membership" "production" {
   provider      = google-beta
   project       = var.project_id
@@ -73,22 +103,6 @@ module "asm-production" {
     destroy_cmd_entrypoint = "gcloud"
     destroy_cmd_body = "container fleet mesh update --management manual --memberships ${google_gke_hub_membership.production.membership_id} --project ${var.project_id}"
 }
-
-# module "asm-production" { # needs this PR to work: https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/pull/1354
-#   source           = "terraform-google-modules/kubernetes-engine/google//modules/asm"
-#   project_id       = var.project_id
-#   cluster_name     = module.gke_production.name
-#   cluster_location = module.gke_production.location
-#   enable_cni       = true
-
-#   module_depends_on = [
-#     google_gke_hub_membership.production
-#   ]
-
-#   providers = {
-#     kubernetes = kubernetes.production
-#   }
-# }
 
 module "acm-production" {
   source = "terraform-google-modules/kubernetes-engine/google//modules/acm"

@@ -74,22 +74,6 @@ module "asm-development" {
     destroy_cmd_body = "container fleet mesh update --management manual --memberships ${google_gke_hub_membership.development.membership_id} --project ${var.project_id}"
 }
 
-# module "asm-development" { # needs this PR to work: https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/pull/1354
-#   source           = "terraform-google-modules/kubernetes-engine/google//modules/asm"
-#   project_id       = var.project_id
-#   cluster_name     = module.gke_development.name
-#   cluster_location = module.gke_development.location
-#   enable_cni       = true
-
-#   module_depends_on = [
-#     google_gke_hub_membership.development
-#   ]
-
-#   providers = {
-#     kubernetes = kubernetes.development
-#   }
-# }
-
 module "acm-development" {
   source = "terraform-google-modules/kubernetes-engine/google//modules/acm"
 
