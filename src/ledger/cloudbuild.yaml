@@ -30,11 +30,11 @@ steps:
       - "deploy"
       - "releases"
       - "create"
-      - "$_TEAM-$SHORT_SHA"
+      - "$_TEAM-$SHORT_SHA-$$DATE-$$TIME"
       - "--delivery-pipeline=$_TEAM"
       - "--build-artifacts=/workspace/artifacts.json"
       - "--skaffold-file=src/$_TEAM/skaffold.yaml"
       - "--region=europe-west1"
-      - "--gcs-source-staging-dir=$_SOURCE_STAGING_BUCKET/$SHORT_SHA"
+      - "--gcs-source-staging-dir=$_SOURCE_STAGING_BUCKET/$SHORT_SHA-$$DATE-$$TIME"
 options:
   logging: CLOUD_LOGGING_ONLY
