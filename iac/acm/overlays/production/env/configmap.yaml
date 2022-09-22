@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: cloud-sql-admin
-data:
-  connectionName: boa-tf-max-3:europe-west1:bank-of-anthos-db-production # TODO: how to inject region, projectid here?
