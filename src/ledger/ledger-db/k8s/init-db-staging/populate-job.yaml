@@ -316,7 +316,16 @@ spec:
             configMapKeyRef:
               name: cloud-sql-admin
               key: connectionName
-        command: ["/bin/bash", "-c", "sleep 10 && /cloud_sql_proxy -instances=$(CONNECTION_NAME)=tcp:5432"]
+        command: [
+          "timeout",
+          "--preserve-status",
+          "-s",
+          "SIGTERM",
+          "30s",
+          "/cloud_sql_proxy",
+          "-instances=$(CONNECTION_NAME)=tcp:5432",
+          "-term_timeout=300s"
+        ]
         securityContext:
           runAsNonRoot: true
       volumes:
