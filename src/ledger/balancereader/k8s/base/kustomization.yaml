@@ -3,5 +3,5 @@ kind: Kustomization
 resources:
   - balancereader.yaml
 components:
-  - ../../../components/base/common
-  - ../../../components/base/java-pod
+  - ../../../components/ledger
+  - ../../../components/ledger-backend-service

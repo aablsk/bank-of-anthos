@@ -6,6 +6,6 @@ commonLabels:
 resources:
   - frontend.yaml
 components:
-  - ../../../components/base/add-tmp-dir
-  - ../../../components/base/add-public-key-volume
-  - ../../../components/base/common
+  - ../../../components/add-tmp-dir
+  - ../../../components/add-public-key-volume
+  - ../../../components/bank-of-anthos

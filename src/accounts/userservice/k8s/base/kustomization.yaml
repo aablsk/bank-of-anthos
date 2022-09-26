@@ -3,8 +3,8 @@ kind: Kustomization
 resources:
   - userservice.yaml
 components:
-  - ../../../components/base/common
-  - ../../../components/base/python-pod
+  - ../../../components/accounts
+  - ../../../../components/backend-service
 patches:
   - target:
       kind: Deployment

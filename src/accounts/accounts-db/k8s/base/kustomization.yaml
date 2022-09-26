@@ -5,4 +5,4 @@ commonLabels:
 resources:
   - config.yaml
 components:
-  - ../../../components/base/common
+  - ../../../components/accounts

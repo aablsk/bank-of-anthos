@@ -11,6 +11,5 @@ profiles:
       - image: loadgenerator
         context: .
     deploy:
-      kubectl:
-        manifests:
-        - k8s/loadgenerator.yaml
+      kustomize:
+        paths: ["k8s/overlays/staging"]

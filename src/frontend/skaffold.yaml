@@ -8,18 +8,24 @@ build:
   artifacts:
     - image: frontend
       context: .
+      sync:
+        infer:
+          - '**/*.py'
+          - 'logging.conf'
+          - 'static/**'
+          - 'templates/*.html'
 profiles:
   - name: development
     activation:
       - command: dev
     deploy:
       kustomize:
-        paths: ["k8s/development"]
+        paths: ["k8s/overlays/development"]
   - name: staging
     deploy:
       kustomize:
-        paths: ["k8s/staging"]
+        paths: ["k8s/overlays/staging"]
   - name: production
     deploy:
       kustomize:
-        paths: ["k8s/production"]
+        paths: ["k8s/overlays/production"]

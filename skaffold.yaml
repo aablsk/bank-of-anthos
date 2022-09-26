@@ -11,7 +11,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+apiVersion: skaffold/v2beta26
+kind: Config
+metadata:
+  name: dev-config
+profiles:
+  - name: development
+    activation:
+      - command: dev
+    deploy:
+      kustomize:
+        paths: ["iac/acm/overlays/development"]  
+---
 apiVersion: skaffold/v2beta26
 kind: Config
 metadata:
@@ -25,4 +36,3 @@ requires:
     path: src/frontend/skaffold.yaml
   - configs: [loadgenerator]
     path: src/loadgenerator/skaffold.yaml
-  

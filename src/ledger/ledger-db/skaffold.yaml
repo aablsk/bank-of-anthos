@@ -8,7 +8,7 @@ profiles:
       - command: dev
     deploy:
       kustomize:
-        paths: ["k8s/development"]
+        paths: ["k8s/overlays/development"]
     build:
       tagPolicy:
         sha256: {}
@@ -18,16 +18,16 @@ profiles:
   - name: staging
     deploy:
       kustomize:
-        paths: ["k8s/staging"]
+        paths: ["k8s/overlays/staging"]
   - name: production
     deploy:
       kustomize:
-        paths: ["k8s/production"]
+        paths: ["k8s/overlays/production"]
   - name: init-db-staging
     deploy:
       kustomize:
-        paths: ["k8s/init-db-staging"]
+        paths: ["k8s/overlays/init-db-staging"]
   - name: init-db-production
     deploy:
       kustomize:
-        paths: ["k8s/init-db-production"]
+        paths: ["k8s/overlays/init-db-production"]
