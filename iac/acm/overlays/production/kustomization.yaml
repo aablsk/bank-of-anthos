@@ -5,7 +5,7 @@ resources:
   - namespace.yaml
   - configmap.yaml
 components:
-  - ../../components/base
+  - ../../base
 patches:
   - target:
       kind: ServiceAccount

@@ -4,7 +4,7 @@ namespace: bank-of-anthos-development
 resources:
   - namespace.yaml
 components:
-  - ../../components/base
+  - ../../base
 patches:
 - target:
     kind: ServiceAccount
