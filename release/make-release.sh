@@ -48,17 +48,21 @@ RELEASE_PATH="${REPO_ROOT}/release/${NEW_VERSION}"
 mkdir -p $RELEASE_PATH
 ARTIFACTS_PATH="${RELEASE_PATH}/${TEAM}-artifacts.json"
 
-# build and push release images
-skaffold config set default-repo $REPO_PREFIX
-skaffold config set local-cluster false
-skaffold build --push --tag=$NEW_VERSION --file-output=$ARTIFACTS_PATH --module=$TEAM
-skaffold render --build-artifacts=$ARTIFACTS_PATH --output="${RELEASE_PATH}/${TEAM}.yaml" --module=$TEAM
-skaffold config unset local-cluster
+# update version in manifests
+find "${REPO_ROOT}/kubernetes-manifests" -name '*.yaml' -exec sed -i -e "s'image: \(.*\)'image: ${REPO_PREFIX}\/\1:${NEW_VERSION}'g" {} \;
+find "${REPO_ROOT}/kubernetes-manifests" -name '*.yaml' -exec sed -i -e "s'value: \"dev\"'value: \"${NEW_VERSION}\"'g" {} \;
+
+# update version in terraform scripts
+sed -i -e "s@sync_branch  = .*@sync_branch  = \"${NEW_VERSION}\"@g" ${REPO_ROOT}/iac/tf-anthos-gke/terraform.tfvars
+
+# remove the region tags so that there are no duplicates 
+find "${REPO_ROOT}/kubernetes-manifests" -name '*.yaml' -exec sed -i -e  "s/dev_kubernetes_manifests/boa_kubernetes_manifests/g" {} \;
 
 # push release PR
-git checkout -b "release/${NEW_VERSION}/${TEAM}"
-git add "${REPO_ROOT}/release/${NEW_VERSION}"
-git commit -m "release/${NEW_VERSION}/${TEAM}"
+git checkout -b "release/${NEW_VERSION}"
+git add "${REPO_ROOT}/kubernetes-manifests/*.yaml"
+git add "${REPO_ROOT}/iac/tf-anthos-gke/terraform.tfvars"
+git commit -m "release/${NEW_VERSION}"
 
 # add tag
 git tag "${NEW_VERSION}-${TEAM}"
