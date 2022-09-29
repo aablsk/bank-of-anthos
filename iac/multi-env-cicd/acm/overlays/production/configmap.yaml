@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: cloud-sql-admin
 data:
-  connectionName: boa-tf-max-4:europe-west1:bank-of-anthos-db-production
+  connectionName: boa-tf-max-5:europe-west1:bank-of-anthos-db-production
