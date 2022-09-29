@@ -74,11 +74,11 @@ spec:
           timeoutSeconds: 10
         resources:
           requests:
-            cpu: "0.25"
+            cpu: 300m
             memory: 0.5Gi
             ephemeral-storage: 0.25Gi
           limits:
-            cpu: "0.25"
+            cpu: 300m
             memory: 0.5Gi
             ephemeral-storage: 0.25Gi
 # [END gke_dev_kubernetes_manifests_userservice_deployment_userservice]

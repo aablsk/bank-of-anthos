@@ -61,11 +61,11 @@ spec:
             name: accounts-db-config
         resources:
           requests:
-            cpu: "0.25"
+            cpu: 300m
             memory: 0.5Gi
             ephemeral-storage: 0.25Gi
           limits:
-            cpu: "0.25"
+            cpu: 300m
             memory: 0.5Gi
             ephemeral-storage: 0.25Gi
         readinessProbe:
