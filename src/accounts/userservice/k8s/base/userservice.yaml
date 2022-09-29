@@ -76,11 +76,11 @@ spec:
           requests:
             cpu: 500m
             memory: 0.5Gi
-            ephemeral-storage: 0.25 Gi
+            ephemeral-storage: 0.25Gi
           limits:
             cpu: 500m
             memory: 0.5Gi
-            ephemeral-storage: 0.25 Gi
+            ephemeral-storage: 0.25Gi
 # [END gke_dev_kubernetes_manifests_userservice_deployment_userservice]
 ---
 # [START gke_dev_kubernetes_manifests_userservice_service_userservice]
