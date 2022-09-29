@@ -113,10 +113,10 @@ spec:
           timeoutSeconds: 30
         resources:
           requests:
-            cpu: 300m
+            cpu: 500m
             memory: 0.25Gi
           limits:
-            cpu: 300m
+            cpu: 500m
             memory: 0.25Gi
 # [END gke_dev_kubernetes_manifests_frontend_deployment_frontend]
 ---
