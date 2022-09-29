@@ -21,7 +21,7 @@ profiles:
       - command: dev
     deploy:
       kustomize:
-        paths: ["iac/acm/overlays/development"]  
+        paths: ["iac/multi-env-cicd/acm/overlays/development"]  
 ---
 apiVersion: skaffold/v2beta26
 kind: Config

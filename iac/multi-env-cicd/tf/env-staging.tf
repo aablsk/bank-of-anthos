@@ -115,7 +115,7 @@ module "acm-staging" {
   sync_branch               = var.sync_branch
   enable_fleet_feature      = false
   enable_fleet_registration = false
-  policy_dir                = "iac/acm/overlays/staging"
+  policy_dir                = "iac/multi-env-cicd/acm/overlays/staging"
   source_format             = "unstructured"
 
   depends_on = [
