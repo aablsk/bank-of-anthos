@@ -1,4 +1,4 @@
-set -Eeuo pipefail
+set -uo pipefail
 
 echo '🚀  Starting ./04-init-cloud-sql.sh'
 

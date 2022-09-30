@@ -3,9 +3,9 @@ set -Eeuo pipefail
 echo '🚀  Starting ./02-terraform.sh'
 echo '🛠 Setting up project infrastructure with terraform.'
 echo '🍵 🧉 🫖  This will take some time - why not get a hot beverage?  🍵 🧉 🫖'
-terraform -chdir=iac/tf init
+terraform -chdir=iac/multi-env-cicd/tf init
 
-terraform -chdir=iac/tf apply \
+terraform -chdir=iac/multi-env-cicd/tf apply \
 -var="project_id=$PROJECT_ID" \
 -var="region=$REGION" \
 -var="zone=$ZONE" \

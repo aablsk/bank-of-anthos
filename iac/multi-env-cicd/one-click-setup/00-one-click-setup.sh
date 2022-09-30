@@ -1,6 +1,6 @@
 source ./iac/multi-env-cicd/one-click-setup/env.sh
 
-if [[ ! -e iac/one-click-setup/00-one-click-setup.sh ]]; then
+if [[ ! -e iac/multi-env-cicd/one-click-setup/00-one-click-setup.sh ]]; then
     echo >&2 "Please run this script from Git repository root."
     exit 1
 fi

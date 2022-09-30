@@ -10,7 +10,7 @@ patches:
           name: cloudsql-proxy
           resources:
             limits:
-              cpu: "200m"
+              cpu: "0.25"
               memory: "100Mi"
           image: gcr.io/cloudsql-docker/gce-proxy:latest 
           env:

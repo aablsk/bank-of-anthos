@@ -2,7 +2,7 @@ set -uo pipefail
 
 echo '🚀  Starting ./01-patch-acm-config.sh'
 echo '🧐  Replacing references to ProjectId in Anthos Config Management configuration...'
-find iac/multi-env-cicd/acm/* -type f -exec sed -i 's/boa-tf-max-4/'"$PROJECT_ID"'/g' {} +
+find iac/multi-env-cicd/acm/* -type f -exec sed -i 's/boa-tf-max-5/'"$PROJECT_ID"'/g' {} +
 
 echo '🧐  Replacing references to Region in Anthos Config Management configuration...'
 find iac/multi-env-cicd/acm/* -type f -exec sed -i 's/europe-west1/'"$REGION"'/g' {} +
