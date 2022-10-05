@@ -9,3 +9,9 @@ requires:
     path: ledgerwriter/skaffold.yaml
   - configs: [transactionhistory]
     path: transactionhistory/skaffold.yaml
+deploy:
+  statusCheck: false
+profiles:
+  - name: staging
+    deploy:
+      statusCheck: false
