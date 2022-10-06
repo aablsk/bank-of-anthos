@@ -35,7 +35,7 @@ steps:
       - "--build-artifacts=/workspace/artifacts.json"
       - "--skaffold-file=src/$_TEAM/skaffold.yaml"
       - "--region=europe-west1"
-      - "--gcs-source-staging-dir=$_SOURCE_STAGING_BUCKET/$SHORT_SHA-$$DATE-$$TIME"
-      - "--skaffold-version=1.37.2"
+      - "--gcs-source-staging-dir=$_SOURCE_STAGING_BUCKET/$SHORT_SHA"
+      - "--skaffold-version=skaffold_preview"
 options:
   logging: CLOUD_LOGGING_ONLY
