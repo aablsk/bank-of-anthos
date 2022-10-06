@@ -24,7 +24,7 @@ google-api-core[grpc]==2.10.1
     # via google-cloud-trace
 google-auth==2.12.0
     # via google-api-core
-google-cloud-trace==1.7.1
+google-cloud-trace==1.7.2
     # via opentelemetry-exporter-gcp-trace
 googleapis-common-protos==1.56.4
     # via
@@ -40,7 +40,7 @@ gunicorn==20.1.0
     # via -r requirements.in
 idna==3.4
     # via requests
-importlib-metadata==4.12.0
+importlib-metadata==5.0.0
     # via flask
 itsdangerous==2.1.2
     # via flask
@@ -95,7 +95,7 @@ opentelemetry-util-http==0.34b0
     #   opentelemetry-instrumentation-wsgi
 proto-plus==1.22.1
     # via google-cloud-trace
-protobuf==4.21.6
+protobuf==4.21.7
     # via
     #   google-api-core
     #   google-cloud-trace
