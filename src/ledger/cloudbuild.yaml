@@ -36,6 +36,6 @@ steps:
       - "--skaffold-file=src/$_TEAM/skaffold.yaml"
       - "--region=europe-west1"
       - "--gcs-source-staging-dir=$_SOURCE_STAGING_BUCKET/$SHORT_SHA-$$DATE-$$TIME"
-      - "--skaffold-version=v1.37.2"
+      - "--skaffold-version=1.37.2"
 options:
   logging: CLOUD_LOGGING_ONLY
