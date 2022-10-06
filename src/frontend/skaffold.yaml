@@ -25,7 +25,9 @@ profiles:
     deploy:
       kustomize:
         paths: ["k8s/overlays/staging"]
+      statusCheck: false
   - name: production
     deploy:
       kustomize:
         paths: ["k8s/overlays/production"]
+      statusCheck: false

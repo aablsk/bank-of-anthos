@@ -7,3 +7,10 @@ requires:
     path: contacts/skaffold.yaml
   - configs: [userservice]
     path: userservice/skaffold.yaml
+profiles:
+  - name: staging
+    deploy:
+      statusCheck: false
+  - name: production
+    deploy:
+      statusCheck: false
