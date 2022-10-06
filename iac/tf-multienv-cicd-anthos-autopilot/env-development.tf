@@ -85,7 +85,7 @@ module "acm-development" {
   sync_branch               = var.sync_branch
   enable_fleet_feature      = false
   enable_fleet_registration = false
-  policy_dir                = "iac/multi-env-cicd/acm/overlays/development"
+  policy_dir                = "iac/acm-multienv-cicd-anthos-autopilot/overlays/development"
   source_format             = "unstructured"
 
   depends_on = [

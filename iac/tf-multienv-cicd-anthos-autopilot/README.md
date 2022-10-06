@@ -30,8 +30,8 @@ TODO: aablsk refine this when we've agreed on value of this and implementation d
     1. Click `Manage Repositories`
     1. `CONNECT REPOSITORY` and follow the UI. Do NOT create a trigger.
 1. [OPTIONAL] If your GCP organization has the compute.vmExternalIpAccess constraint in place reset it on project level `gcloud org-policies reset constraints/compute.vmExternalIpAccess --project=$PROJECT_ID` 
-1. Replace environment variables in $REPO_ROOT/iac/multi-env-cicd/one-click-setup/env.sh
-1. Navigate to the repository root and execute with owner permissions `./iac/multi-env-cicd/one-click-setup/00-one-click-setup.sh`. What happens under the hood:
+1. Replace environment variables in $REPO_ROOT/iac/tf-multienv-cicd-anthos-autopilot/shell-scripts/env.sh
+1. Navigate to the repository root and execute with project owner permissions `./iac/tf-multienv-cicd-anthos-autopilot/shell-scripts/00-setup-all-the-things.sh`. What happens under the hood:
     1. Patches ACM manifests to contain references to your project and commits them to your git repository
     1. Terraform will set up your GCP infrastructure
     1. Waits for provisioning of managed ASM to complete
@@ -41,5 +41,5 @@ TODO: aablsk refine this when we've agreed on value of this and implementation d
 1. Enjoy!
 
 # Troubleshooting
-1. Sometimes the one-click-setup fails (e.g. because autopilot clusters need to be repaired, ASM is re-provisioning data plane, shell timeout). In that case just run the 00-one-click-setup.sh again as it is idempotent.
+1. Sometimes the one-click-setup fails (e.g. because autopilot clusters need to be repaired, ASM is re-provisioning data plane, shell timeout). In that case just run the 00-setup-all-the-things.sh again as it is idempotent.
 

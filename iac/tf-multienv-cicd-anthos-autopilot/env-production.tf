@@ -1,22 +1,22 @@
 provider "kubernetes" {
-  alias                  = "staging"
-  host                   = "https://${module.gke_staging.endpoint}"
+  alias                  = "production"
+  host                   = "https://${module.gke_production.endpoint}"
   token                  = data.google_client_config.default.access_token
-  cluster_ca_certificate = base64decode(module.gke_staging.ca_certificate)
+  cluster_ca_certificate = base64decode(module.gke_production.ca_certificate)
 }
 
-module "gke_staging" {
+module "gke_production" {
   source = "terraform-google-modules/kubernetes-engine/google//modules/beta-autopilot-public-cluster"
 
   project_id        = var.project_id
-  name              = "staging"
+  name              = "production"
   regional          = true
   region            = var.region
   network           = local.network_name
-  subnetwork        = local.network.staging.subnetwork
-  ip_range_pods     = local.network.staging.ip_range_pods
-  ip_range_services = local.network.staging.ip_range_services
-  #master_authorized_networks      = local.network.staging.master_auth_subnet_name
+  subnetwork        = local.network.production.subnetwork
+  ip_range_pods     = local.network.production.ip_range_pods
+  ip_range_services = local.network.production.ip_range_services
+  #master_authorized_networks      = local.network.production.master_auth_subnet_name
   release_channel                 = "RAPID"
   enable_vertical_pod_autoscaling = true
   horizontal_pod_autoscaling      = true
@@ -25,7 +25,7 @@ module "gke_staging" {
   datapath_provider               = "ADVANCED_DATAPATH"
 
   providers = {
-    kubernetes = kubernetes.staging
+    kubernetes = kubernetes.production
   }
 
   depends_on = [
@@ -36,27 +36,27 @@ module "gke_staging" {
   ]
 }
 
-resource "google_service_account" "gke_workload_staging" {
-  account_id = "gke-workload-staging"
+resource "google_service_account" "gke_workload_production" {
+  account_id = "gke-workload-production"
 }
 
-resource "google_service_account_iam_member" "gke_workload_staging_identity" {
-  service_account_id = google_service_account.gke_workload_staging.id
+resource "google_service_account_iam_member" "gke_workload_production_identity" {
+  service_account_id = google_service_account.gke_workload_production.id
   role               = "roles/iam.workloadIdentityUser"
-  member             = "serviceAccount:${var.project_id}.svc.id.goog[bank-of-anthos-staging/bank-of-anthos]"
+  member             = "serviceAccount:${var.project_id}.svc.id.goog[bank-of-anthos-production/bank-of-anthos]"
   depends_on = [
-    module.gke_staging
+    module.gke_production
   ]
 }
 
-module "cloudsql_staging" {
+module "cloudsql_production" {
   source = "GoogleCloudPlatform/sql-db/google//modules/postgresql"
 
   project_id = var.project_id
   region     = var.region
   zone       = var.zone
 
-  name              = "${local.cloudsql_name}-staging"
+  name              = "${local.cloudsql_name}-production"
   database_version  = "POSTGRES_14"
   enable_default_db = false
   # ip_configuration - should we use this or is default ok?
@@ -79,50 +79,51 @@ module "cloudsql_staging" {
   user_password = "admin" # this is a security risk - do not do this for real world use-cases!
 }
 
-resource "google_gke_hub_membership" "staging" {
+resource "google_gke_hub_membership" "production" {
   provider      = google-beta
   project       = var.project_id
-  membership_id = "staging-membership"
+  membership_id = "production-membership"
   endpoint {
     gke_cluster {
-      resource_link = "//container.googleapis.com/${module.gke_staging.cluster_id}"
+      resource_link = "//container.googleapis.com/${module.gke_production.cluster_id}"
     }
   }
   authority {
-    issuer = "https://container.googleapis.com/v1/${module.gke_staging.cluster_id}"
+    issuer = "https://container.googleapis.com/v1/${module.gke_production.cluster_id}"
   }
 }
 
-module "asm-staging" {
+module "asm-production" {
     source = "terraform-google-modules/gcloud/google"
 
     platform = "linux"
     
     create_cmd_entrypoint = "gcloud"
-    create_cmd_body = "container fleet mesh update --management automatic --memberships ${google_gke_hub_membership.staging.membership_id} --project ${var.project_id}"
+    create_cmd_body = "container fleet mesh update --management automatic --memberships ${google_gke_hub_membership.production.membership_id} --project ${var.project_id}"
     destroy_cmd_entrypoint = "gcloud"
-    destroy_cmd_body = "container fleet mesh update --management manual --memberships ${google_gke_hub_membership.staging.membership_id} --project ${var.project_id}"
+    destroy_cmd_body = "container fleet mesh update --management manual --memberships ${google_gke_hub_membership.production.membership_id} --project ${var.project_id}"
 }
 
-module "acm-staging" {
+module "acm-production" {
   source = "terraform-google-modules/kubernetes-engine/google//modules/acm"
 
   project_id                = var.project_id
-  cluster_name              = module.gke_staging.name
-  cluster_membership_id     = "staging-membership"
-  location                  = module.gke_staging.location
+  cluster_name              = module.gke_production.name
+  cluster_membership_id     = "production-membership"
+  location                  = module.gke_production.location
   sync_repo                 = local.sync_repo_url
   sync_branch               = var.sync_branch
   enable_fleet_feature      = false
   enable_fleet_registration = false
-  policy_dir                = "iac/multi-env-cicd/acm/overlays/staging"
+  policy_dir                = "iac/acm-multienv-cicd-anthos-autopilot/overlays/production"
   source_format             = "unstructured"
 
   depends_on = [
-    module.asm-staging
+    module.asm-production
   ]
 
   providers = {
-    kubernetes = kubernetes.staging
+    kubernetes = kubernetes.production
   }
 }
+
