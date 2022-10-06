@@ -1,3 +1,4 @@
+# Cloud Foundation Toolkit GKE module requires cluster-specific kubernetes provider
 provider "kubernetes" {
   alias                  = "production"
   host                   = "https://${module.gke_production.endpoint}"
@@ -5,6 +6,7 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(module.gke_production.ca_certificate)
 }
 
+# production autopilot cluster
 module "gke_production" {
   source = "terraform-google-modules/kubernetes-engine/google//modules/beta-autopilot-public-cluster"
 
@@ -36,10 +38,12 @@ module "gke_production" {
   ]
 }
 
+# production GKE workload GSA
 resource "google_service_account" "gke_workload_production" {
   account_id = "gke-workload-production"
 }
 
+# binding production GKE workload GSA to KSA
 resource "google_service_account_iam_member" "gke_workload_production_identity" {
   service_account_id = google_service_account.gke_workload_production.id
   role               = "roles/iam.workloadIdentityUser"
@@ -49,6 +53,7 @@ resource "google_service_account_iam_member" "gke_workload_production_identity" 
   ]
 }
 
+# CloudSQL Postgres production instance 
 module "cloudsql_production" {
   source = "GoogleCloudPlatform/sql-db/google//modules/postgresql"
 
@@ -56,10 +61,9 @@ module "cloudsql_production" {
   region     = var.region
   zone       = var.zone
 
-  name              = "${local.cloudsql_name}-production"
+  name              = "${local.application_name}-db-production"
   database_version  = "POSTGRES_14"
   enable_default_db = false
-  # ip_configuration - should we use this or is default ok?
   tier = "db-custom-1-3840"
   deletion_protection = false
 
@@ -79,6 +83,7 @@ module "cloudsql_production" {
   user_password = "admin" # this is a security risk - do not do this for real world use-cases!
 }
 
+# create fleet membership for production GKE cluster
 resource "google_gke_hub_membership" "production" {
   provider      = google-beta
   project       = var.project_id
@@ -93,6 +98,7 @@ resource "google_gke_hub_membership" "production" {
   }
 }
 
+# configure ASM for production GKE cluster
 module "asm-production" {
     source = "terraform-google-modules/gcloud/google"
 
@@ -104,6 +110,7 @@ module "asm-production" {
     destroy_cmd_body = "container fleet mesh update --management manual --memberships ${google_gke_hub_membership.production.membership_id} --project ${var.project_id}"
 }
 
+# configure ACM for production GKE cluster
 module "acm-production" {
   source = "terraform-google-modules/kubernetes-engine/google//modules/acm"
 

@@ -1,3 +1,4 @@
+# Cloud Foundation Toolkit GKE module requires cluster-specific kubernetes provider
 provider "kubernetes" {
   alias                  = "staging"
   host                   = "https://${module.gke_staging.endpoint}"
@@ -5,6 +6,7 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(module.gke_staging.ca_certificate)
 }
 
+# staging autopilot cluster
 module "gke_staging" {
   source = "terraform-google-modules/kubernetes-engine/google//modules/beta-autopilot-public-cluster"
 
@@ -36,10 +38,12 @@ module "gke_staging" {
   ]
 }
 
+# staging GKE workload GSA
 resource "google_service_account" "gke_workload_staging" {
   account_id = "gke-workload-staging"
 }
 
+# binding staging GKE workload GSA to KSA
 resource "google_service_account_iam_member" "gke_workload_staging_identity" {
   service_account_id = google_service_account.gke_workload_staging.id
   role               = "roles/iam.workloadIdentityUser"
@@ -49,6 +53,7 @@ resource "google_service_account_iam_member" "gke_workload_staging_identity" {
   ]
 }
 
+# CloudSQL Postgres staging instance 
 module "cloudsql_staging" {
   source = "GoogleCloudPlatform/sql-db/google//modules/postgresql"
 
@@ -56,7 +61,7 @@ module "cloudsql_staging" {
   region     = var.region
   zone       = var.zone
 
-  name              = "${local.cloudsql_name}-staging"
+  name              = "${local.application_name}-db-staging"
   database_version  = "POSTGRES_14"
   enable_default_db = false
   # ip_configuration - should we use this or is default ok?
@@ -79,6 +84,7 @@ module "cloudsql_staging" {
   user_password = "admin" # this is a security risk - do not do this for real world use-cases!
 }
 
+# create fleet membership for staging GKE cluster
 resource "google_gke_hub_membership" "staging" {
   provider      = google-beta
   project       = var.project_id
@@ -93,6 +99,7 @@ resource "google_gke_hub_membership" "staging" {
   }
 }
 
+# configure ASM for staging GKE cluster
 module "asm-staging" {
     source = "terraform-google-modules/gcloud/google"
 
@@ -104,6 +111,7 @@ module "asm-staging" {
     destroy_cmd_body = "container fleet mesh update --management manual --memberships ${google_gke_hub_membership.staging.membership_id} --project ${var.project_id}"
 }
 
+# configure ACM for staging GKE cluster
 module "acm-staging" {
   source = "terraform-google-modules/kubernetes-engine/google//modules/acm"
 

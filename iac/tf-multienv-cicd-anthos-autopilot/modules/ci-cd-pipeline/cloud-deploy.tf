@@ -1,4 +1,6 @@
+# create CloudDeploy targets
 resource "google_clouddeploy_target" "targets" {
+  # one CloudDeploy target per target defined in vars
   for_each = toset(var.targets)
 
   project  = var.project_id
@@ -19,6 +21,7 @@ resource "google_clouddeploy_target" "targets" {
   }
 }
 
+# create delivery pipeline for team including all targets
 resource "google_clouddeploy_delivery_pipeline" "delivery-pipeline" {
   location = var.region
   name     = var.team

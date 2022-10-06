@@ -1,8 +1,9 @@
-# service accounts
+# cloud build service account
 resource "google_service_account" "cloud_build" {
   account_id = "cloud-build-${var.team}"
 }
 
+# cloud deploy service account
 resource "google_service_account" "cloud_deploy" {
   account_id = "cloud-deploy-${var.team}"
 }

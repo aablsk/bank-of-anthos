@@ -1,3 +1,4 @@
+# Cloud Foundation Toolkit GKE module requires cluster-specific kubernetes provider
 provider "kubernetes" {
   alias                  = "development"
   host                   = "https://${module.gke_development.endpoint}"
@@ -5,6 +6,7 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(module.gke_development.ca_certificate)
 }
 
+# development autopilot cluster
 module "gke_development" {
   source = "terraform-google-modules/kubernetes-engine/google//modules/beta-autopilot-public-cluster"
 
@@ -36,10 +38,12 @@ module "gke_development" {
   ]
 }
 
+# development GKE workload GSA
 resource "google_service_account" "gke_workload_development" {
   account_id = "gke-workload-development"
 }
 
+# binding development GKE workload GSA to KSA
 resource "google_service_account_iam_member" "gke_workload_development_identity" {
   service_account_id = google_service_account.gke_workload_development.id
   role               = "roles/iam.workloadIdentityUser"
@@ -49,6 +53,7 @@ resource "google_service_account_iam_member" "gke_workload_development_identity"
   ]
 }
 
+# create fleet membership for development GKE cluster
 resource "google_gke_hub_membership" "development" {
   provider      = google-beta
   project       = var.project_id
@@ -63,6 +68,7 @@ resource "google_gke_hub_membership" "development" {
   }
 }
 
+# configure ASM for development GKE cluster
 module "asm-development" {
     source = "terraform-google-modules/gcloud/google"
 
@@ -74,6 +80,7 @@ module "asm-development" {
     destroy_cmd_body = "container fleet mesh update --management manual --memberships ${google_gke_hub_membership.development.membership_id} --project ${var.project_id}"
 }
 
+# configure ACM for development GKE cluster
 module "acm-development" {
   source = "terraform-google-modules/kubernetes-engine/google//modules/acm"
 

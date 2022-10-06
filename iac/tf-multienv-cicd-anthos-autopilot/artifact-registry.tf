@@ -1,3 +1,4 @@
+# create artifact registry for container images
 resource "google_artifact_registry_repository" "container_registry" {
   repository_id = local.application_name
   location      = var.region
@@ -12,7 +13,7 @@ resource "google_artifact_registry_repository" "container_registry" {
   ]
 }
 
-# we cannot use a custom service account with autopilot clusters https://github.com/hashicorp/terraform-provider-google/issues/9505 🤷
+# we cannot use a custom service account with autopilot clusters in terraform https://github.com/hashicorp/terraform-provider-google/issues/9505 🤷
 # so we're using the default compute service account here...
 module "artifact-registry-repository-iam-bindings" {
   source       = "terraform-google-modules/iam/google//modules/artifact_registry_iam"

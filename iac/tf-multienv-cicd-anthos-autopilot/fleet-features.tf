@@ -1,3 +1,4 @@
+# enable ASM feature on fleet
 resource "google_gke_hub_feature" "asm" {
   name = "servicemesh"
   location = "global"
@@ -10,6 +11,7 @@ resource "google_gke_hub_feature" "asm" {
   ]
 }
 
+# enable ACM feature on fleet
 resource "google_gke_hub_feature" "acm" {
   name = "configmanagement"
   location = "global"
