@@ -72,9 +72,9 @@ Setting up the sample requires that you have a [Google Cloud Platform (GCP) proj
    terraform apply
    ```
 1. Check terraform output and approve terraform apply.
-
-## Initialize CloudSQL databases with data
 1. Wait for ASM to be provisioned on all clusters. Check the status with `gcloud container fleet mesh describe` and wait for all entries to be in `state: ACTIVE`. This might take between dozens of minutes.
+
+## Initialize CloudSQL databases with data (not ready in this PR due to dependencies on skaffold/kustomize configuration)
 1. Initialize `staging` CloudSQL database with data.
    ```bash
    echo '🔑  Getting cluster credentials...'
@@ -100,7 +100,7 @@ Setting up the sample requires that you have a [Google Cloud Platform (GCP) proj
    kubectl wait --for=condition=complete job/populate-accounts-db job/populate-ledger-db -n bank-of-anthos-staging --timeout=300s
    ```
 
-## Deploy the application
+## Deploy the application (not ready in this PR due to dependencies on skaffold/kustomize configuration)
 1. Execute CI/CD pipeline through Cloud Build triggers.
    ```bash
    echo '🌈  Triggering CI/CD for Frontend team'
