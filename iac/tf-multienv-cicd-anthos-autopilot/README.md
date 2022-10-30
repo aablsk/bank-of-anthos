@@ -68,6 +68,7 @@ Setting up the sample requires that you have a [Google Cloud Platform (GCP) proj
 1. Provision infrastructure with terraform.
    ```bash
    # run from iac/tf-multienv-cicd-anthos-autopilot
+   terraform init
    terraform apply
    ```
 1. Check terraform output and approve terraform apply.

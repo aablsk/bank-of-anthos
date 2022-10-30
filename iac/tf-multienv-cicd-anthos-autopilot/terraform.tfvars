@@ -13,7 +13,8 @@
 # limitations under the License.
 project_id = "bank-of-anthos-aablsk"
 region = "europe-west1"
+zone = "europe-west1-b"
 
-repo_owner = "GoogleCloudPlatform"
+repo_owner = "aablsk"
 sync_repo = "bank-of-anthos"
-sync_branch = "main"
+sync_branch = "multienv-test"
