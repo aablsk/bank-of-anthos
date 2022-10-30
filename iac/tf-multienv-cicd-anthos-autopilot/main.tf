@@ -14,7 +14,7 @@
 
 terraform {
   backend "gcs" {
-      bucket = "YOUR_TF_STATE_GCS_BUCKET_NAME"
+      bucket = "tf-state-bank-of-anthos-aablsk"
       prefix = "bank-of-anthos"
   }
 }
