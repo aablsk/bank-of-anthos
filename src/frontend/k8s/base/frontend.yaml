@@ -113,10 +113,10 @@ spec:
           timeoutSeconds: 30
         resources:
           requests:
-            cpu: 500m
+            cpu: 300m
             memory: 0.25Gi
           limits:
-            cpu: 500m
+            cpu: 300m
             memory: 0.25Gi
 # [END gke_boa_kubernetes_manifests_frontend_deployment_frontend]
 ---
